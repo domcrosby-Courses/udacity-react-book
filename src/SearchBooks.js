@@ -20,7 +20,8 @@ class SearchBooks extends Component {
     /** Query used in search, updates searchBooks as well as searchBox */
     query: '',
     /** List of books returned from the query */
-    searchBooks: []
+    searchBooks: [],
+    noSearch: true
   };
   updateQuery = query => {
     this.setState(() => ({ query }));
@@ -28,6 +29,7 @@ class SearchBooks extends Component {
       BooksAPI.search(query).then(searchBooks => {
         if (query === this.state.query && searchBooks.length) {
           this.setState(() => ({
+            noSearch: false,
             searchBooks: searchBooks.map(book => {
               const bk = this.props.books.find(b => b.id === book.id);
               if (bk) {
@@ -40,15 +42,31 @@ class SearchBooks extends Component {
           }));
         } else {
           this.setState(() => ({
-            searchBooks: []
+            searchBooks: [],
+            noSearch: false
           }));
         }
       });
+    } else {
+      this.setState(() => ({
+        searchBooks: [],
+        noSearch: true
+      }));
     }
   };
   render() {
-    const { query, searchBooks } = this.state;
+    const { query, searchBooks, noSearch } = this.state;
     const { onBookChange } = this.props;
+    let gridDisplay;
+
+    if (noSearch) {
+      gridDisplay = <p>please enter search term</p>;
+    } else if (searchBooks.length) {
+      gridDisplay = <BooksGrid onBookChange={onBookChange} filteredBooks={searchBooks} />;
+    } else {
+      gridDisplay = <p>no results</p>;
+    }
+
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -64,11 +82,7 @@ class SearchBooks extends Component {
             />
           </div>
         </div>
-        <div className="search-books-results">
-          {(searchBooks.length && (
-            <BooksGrid onBookChange={onBookChange} filteredBooks={searchBooks} />
-          )) || <p>no results</p>}
-        </div>
+        <div className="search-books-results">{gridDisplay}</div>
       </div>
     );
   }

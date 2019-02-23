@@ -16,6 +16,11 @@ class ListBooks extends Component {
   };
   render() {
     const { books, onBookChange } = this.props;
+    const shelves = [
+      { title: 'Currently Reading', id: 'currentlyReading' },
+      { title: 'Want to Read', id: 'wantToRead' },
+      { title: 'Read', id: 'read' }
+    ];
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -23,22 +28,14 @@ class ListBooks extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            <BookShelf
-              /** Renders a bookshelf with a supplied title */
-              title="Currently Reading"
-              onBookChange={onBookChange}
-              filteredBooks={books.filter(book => book.shelf === 'currentlyReading')}
-            />
-            <BookShelf
-              title="Want to Read"
-              onBookChange={onBookChange}
-              filteredBooks={books.filter(book => book.shelf === 'wantToRead')}
-            />
-            <BookShelf
-              title="Read"
-              onBookChange={onBookChange}
-              filteredBooks={books.filter(book => book.shelf === 'read')}
-            />
+            {shelves.map(shelf => (
+              <BookShelf
+                key={shelf.id}
+                title={shelf.title}
+                onBookChange={onBookChange}
+                filteredBooks={books.filter(book => book.shelf === shelf.id)}
+              />
+            ))}
           </div>
         </div>
         <div className="open-search">

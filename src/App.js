@@ -20,7 +20,6 @@ class BooksApp extends React.Component {
     BooksAPI.update(book, status);
     book.shelf = status;
     this.setState(currentState => {
-      // TODO : filter array and add new book
       return { books: [...currentState.books.filter(bk => bk.id !== book.id), book] };
     });
   };
