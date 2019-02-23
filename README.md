@@ -4,6 +4,11 @@
 
 This project was released previously by me with a different udacity account through the workspace. I have updated this to run from create-react-app but the content is largely the same.
 
+To get started developing right away:
+
+- install all project dependencies with `npm install`
+- start the development server with `npm start`
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
