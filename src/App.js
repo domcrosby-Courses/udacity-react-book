@@ -1,28 +1,50 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
+import ListBooks from './ListBooks';
+import SearchBooks from './SearchBooks';
+import * as BooksAPI from './BooksAPI';
 import './App.css';
+import { Route } from 'react-router-dom';
 
-class App extends Component {
+class BooksApp extends React.Component {
+  state = {
+    books: []
+  };
+  componentDidMount() {
+    BooksAPI.getAll().then(books => {
+      this.setState(() => ({
+        books
+      }));
+    });
+  }
+  updateBook = (book, status) => {
+    BooksAPI.update(book, status);
+    book.shelf = status;
+    this.setState(currentState => {
+      // TODO : filter array and add new book
+      return { books: [...currentState.books.filter(bk => bk.id !== book.id), book] };
+    });
+  };
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="app">
+        <Route
+          path="/search"
+          render={() => (
+            // Renders the search page
+            <SearchBooks books={this.state.books} onBookChange={this.updateBook} />
+          )}
+        />
+        <Route
+          exact
+          path="/"
+          render={() => (
+            // Renders the home page
+            <ListBooks books={this.state.books} onBookChange={this.updateBook} />
+          )}
+        />
       </div>
     );
   }
 }
 
-export default App;
+export default BooksApp;
