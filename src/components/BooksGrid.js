@@ -10,9 +10,10 @@ class BooksGrid extends Component {
   static propTypes = {
     /** list of books to display */
     filteredBooks: PropTypes.array.isRequired,
-    /** updates the status of a book object given a status string*/
+    /** updates the status of a book object given a status string */
     onBookChange: PropTypes.func.isRequired
   };
+
   render() {
     const { filteredBooks, onBookChange } = this.props;
     return (

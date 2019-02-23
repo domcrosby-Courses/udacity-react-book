@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import * as BooksAPI from './BooksAPI';
-import BooksGrid from './BooksGrid';
+import * as BooksAPI from '../data/BooksAPI';
+import BooksGrid from '../components/BooksGrid';
 
 /**
  * User can search for books and add to a shelf
@@ -13,9 +13,10 @@ class SearchBooks extends Component {
   static propTypes = {
     /** list of books the user has read, currently reading, wishlisted */
     books: PropTypes.array.isRequired,
-    /** updates the status of a book object given a status string*/
+    /** updates the status of a book object given a status string */
     onBookChange: PropTypes.func.isRequired
   };
+
   state = {
     /** Query used in search, updates searchBooks as well as searchBox */
     query: '',
@@ -23,6 +24,7 @@ class SearchBooks extends Component {
     searchBooks: [],
     noSearch: true
   };
+
   updateQuery = query => {
     this.setState(() => ({ query }));
     if (query !== '') {
@@ -54,6 +56,7 @@ class SearchBooks extends Component {
       }));
     }
   };
+
   render() {
     const { query, searchBooks, noSearch } = this.state;
     const { onBookChange } = this.props;
