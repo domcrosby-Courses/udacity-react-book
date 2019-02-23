@@ -40,7 +40,7 @@ class SearchBooks extends Component {
               return book;
             })
           }));
-        } else {
+        } else if (query === this.state.query && !searchBooks.length) {
           this.setState(() => ({
             searchBooks: [],
             noSearch: false
